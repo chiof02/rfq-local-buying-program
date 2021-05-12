@@ -10,11 +10,10 @@ import moment from 'moment';
 import { $enum } from 'ts-enum-util';
 import getStatusProposal from 'utils/getStatusProposal';
 import renderCommonMetaTags from 'utils/renderCommonMetaTags';
+import request from 'utils/request';
 
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
 import { IProposal } from 'models/IProposal';
-import { ISupplier } from 'models/ISupplier';
-import { ITender } from 'models/ITender';
 import { ProposalStatus } from 'models/ProposalStatus';
 
 import MainLayout from '../../layouts/MainLayout';
@@ -27,118 +26,10 @@ interface IProps {
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    // const api = fetcherNextJSAPI();
-    // const [] = await Promise.all([
-    //   // TODO: Add the requests
-    // ]);
-    const supplier: ISupplier = {
-      ABN: '21321',
-      ID: 1,
-      Name: 'Name',
-      Logo:
-        'https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80',
-      Description: 'Description',
-      State_ID: 1,
-      State: {
-        ID: 1,
-        Name: 'City',
-        Acronym: 'CIT',
-      },
-      City_ID: 1,
-      City: {
-        ID: 1,
-        Name: 'Cool City',
-        State_ID: 1,
-      },
-      DeletedAt: '2022-03-01',
-      CreatedAt: '2022-03-01',
-      UpdatedAt: '2022-03-01',
-      SupplyCategories: [
-        {
-          ID: 1,
-          Name: 'Name',
-          Description: 'Name',
-        },
-        {
-          ID: 1,
-          Name: 'Name',
-          Description: 'Other Name',
-        },
-      ],
-    };
-
-    const tender: ITender = {
-      ID: 1,
-      Buyer_ID: 1,
-      Buyer: {
-        ID: 1,
-        Name: 'Name',
-        ABN: 'ABN',
-        Logo:
-          'https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80',
-        CreatedAt: '2020-08-01',
-        UpdatedAt: '2020-08-01',
-        DeletedAt: '2020-08-01',
-      },
-      PublishedAt: '2022-03-01',
-      ClosingAt: '2021-04-21',
-      Title: 'Title',
-      HeadingImage:
-        'https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80',
-      Description: 'Description',
-      State_ID: 1,
-      State: {
-        ID: 1,
-        Name: 'City',
-        Acronym: 'CIT',
-      },
-      City_ID: 1,
-      City: {
-        ID: 1,
-        Name: 'Cool City',
-        State_ID: 1,
-      },
-      Offer: 2323.23,
-      DeletedAt: '2022-03-01',
-      CreatedAt: '2022-03-01',
-      UpdatedAt: '2022-03-01',
-      SupplyCategories: [
-        {
-          ID: 1,
-          Name: 'Name',
-          Description: 'Name',
-        },
-        {
-          ID: 1,
-          Name: 'Name',
-          Description: 'Other Name',
-        },
-      ],
-    };
-
-    const proposal: IProposal = {
-      ID: 1,
-      CreatedAt: '2020-03-01',
-      Description: 'Description',
-      Offer: 12321.22,
-      Supplier: supplier,
-      Supplier_ID: 1,
-      Tender: tender,
-      Tender_ID: 0,
-      UpdatedAt: '',
-    };
+    const { data: proposals } = await request.get<IProposal[]>('/proposals');
     return {
       props: {
-        proposals: [
-          proposal,
-          proposal,
-          proposal,
-          proposal,
-          proposal,
-          proposal,
-          proposal,
-          proposal,
-        ],
+        proposals,
       },
       revalidate: 60, // time in seconds
     };
