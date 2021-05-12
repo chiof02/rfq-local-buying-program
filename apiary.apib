@@ -14,7 +14,7 @@ HOST: https://polls.apiblueprint.org/
           {
             "ID": 1,
             "Name": "Metal Supply Co",
-            "ABN": 02999111888,
+            "ABN": "02999111888",
             "Logo": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
             "Description": "Description",
             "State_ID": 1,
@@ -48,7 +48,7 @@ HOST: https://polls.apiblueprint.org/
           {
             "ID": 2,
             "Name": "COGS",
-            "ABN": 98669677128,
+            "ABN": "98669677128",
             "Logo": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
             "Description": "Description",
             "State_ID": 1,
@@ -82,7 +82,7 @@ HOST: https://polls.apiblueprint.org/
           {
             "ID": 3,
             "Name": "Tools 4 days",
-            "ABN": 02999111888,
+            "ABN": "02999111888",
             "Logo": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
             "Description": "Description",
             "State_ID": 1,
@@ -116,7 +116,7 @@ HOST: https://polls.apiblueprint.org/
           {
             "ID": 4,
             "Name": "Fall ball",
-            "ABN": 12929121828,
+            "ABN": "12929121828",
             "Logo": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
             "Description": "Description",
             "State_ID": 1,
@@ -149,6 +149,44 @@ HOST: https://polls.apiblueprint.org/
           }
         ]
 
+### GET ONE Supplier [GET /suppliers/{id}]
+
++ Response 200 (application/json)
+
+        {
+            "ID": 1,
+            "Name": "Metal Supply Co",
+            "ABN": "02999111888",
+            "Logo": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
+            "Description": "Description",
+            "State_ID": 1,
+            "State": {
+              "ID": 1,
+              "Name": "City",
+              "Acronym": "CIT"
+            },
+            "City_ID": 1,
+            "City": {
+              "ID": 1,
+              "Name": "Cool City",
+              "State_ID": 1
+            },
+            "SupplyCategories": [
+              {
+                "ID": 1,
+                "Name": "Name",
+                "Description": "Name"
+              },
+              {
+                "ID": 1,
+                "Name": "Name",
+                "Description": "Other Name"
+              }
+            ],
+            "CreatedAt": "2021-04-25T11:55:34Z",
+            "UpdatedAt": "2021-04-25T11:55:34Z",
+            "DeletedAt": "2021-04-25T11:55:34Z"
+          }
             
 ### Create a New Supplier [POST]
 
@@ -166,11 +204,11 @@ HOST: https://polls.apiblueprint.org/
                 "Choices": [
                     {
                         "Supplier": "Swift",
-                        "ABN": 12 222 222 333,
+                        "ABN": "12 222 222 333",
                         "Logo": "PHHSK"
                     }, {
                         "Supplier": "Ssact",
-                        "ABN": 12 999 111 333,
+                        "ABN": "12 999 111 333",
                         "Logo": "PHHSK"
                     }
                 ]
@@ -186,7 +224,7 @@ HOST: https://polls.apiblueprint.org/
           {
             "ID": 1,
             "Name": "BHP",
-            "ABN": 26125643045,
+            "ABN": "26125643045",
             "Logo": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
             "Description": "Description",
             "State_ID": 1,
