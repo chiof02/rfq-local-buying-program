@@ -1,27 +1,33 @@
 import { GetStaticProps } from 'next';
 import ErrorPage from 'next/error';
 import Head from 'next/head';
-import Link from 'next/link';
 import { FC } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 
 import { motion } from 'framer-motion';
+import moment from 'moment';
+import renderCommonMetaTags from 'utils/renderCommonMetaTags';
 
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
-import SupplierDetailCard from 'components/TenderDetailCard/SupplierDetailCard';
-import TenderDetailCard from 'components/TenderDetailCard/TenderDetailCard';
+import { IProposal } from 'models/IProposal';
 import { ISupplier } from 'models/ISupplier';
 import { ITender } from 'models/ITender';
 
-import MainLayout from '../layouts/MainLayout';
-import renderCommonMetaTags from '../utils/renderCommonMetaTags';
+import MainLayout from '../../layouts/MainLayout';
 
-interface IProps {
-  statusCode?: number;
-  host: string;
-  tenders: ITender[];
-  suppliers: ISupplier[];
-}
+export const getStaticPaths = async () => {
+  return {
+    paths: [
+      {
+        params: { id: '1' },
+      },
+      {
+        params: { id: '2' },
+      },
+    ],
+    fallback: true, // See the "fallback" section below
+  };
+};
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
@@ -29,6 +35,7 @@ export const getStaticProps: GetStaticProps = async () => {
     // const [] = await Promise.all([
     //   // TODO: Add the requests
     // ]);
+
     const tender: ITender = {
       ID: 1,
       Buyer_ID: 1,
@@ -56,7 +63,7 @@ export const getStaticProps: GetStaticProps = async () => {
         UpdatedAt: '2022-03-01',
       },
       PublishedAt: '2022-03-01',
-      ClosingAt: '2022-03-01',
+      ClosingAt: '2021-04-29',
       Title: 'Title',
       HeadingImage:
         'https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80',
@@ -125,10 +132,22 @@ export const getStaticProps: GetStaticProps = async () => {
         },
       ],
     };
+    const proposal: IProposal = {
+      ApprovedAt: '',
+      CreatedAt: '',
+      DeletedAt: '',
+      Description: '',
+      Offer: 0,
+      Supplier: supplier,
+      Supplier_ID: 0,
+      Tender: tender,
+      Tender_ID: 0,
+      UpdatedAt: '',
+      ID: 1,
+    };
     return {
       props: {
-        tenders: [tender, tender, tender, tender],
-        suppliers: [supplier, supplier, supplier, supplier],
+        proposal,
       },
       revalidate: 60, // time in seconds
     };
@@ -143,26 +162,30 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 };
 
-const HomePage: FC<IProps> = ({
-  suppliers,
-  tenders,
+interface IProps {
+  statusCode?: number;
+  host: string;
+  proposal: IProposal;
+}
+
+const ProposalDetailPage: FC<IProps> = ({
+  proposal,
   statusCode = null,
   host = '',
 }) => {
-  if (statusCode) {
-    return <ErrorPage statusCode={statusCode} />;
+  if (statusCode || !proposal) {
+    return <ErrorPage statusCode={statusCode || 400} />;
   }
-
   return (
     <>
       <Head>
         {renderCommonMetaTags(
-          'rfq-cres',
-          'rfq-cres Description',
+          'rfq-cres - Subscribe Page',
+          'Subscribe Page - Description',
           undefined,
           `${host}/`,
           undefined,
-          'rfq-cres',
+          'Subscribe Page',
           undefined,
         )}
       </Head>
@@ -175,62 +198,56 @@ const HomePage: FC<IProps> = ({
           transition={{ ease: 'easeInOut', duration: 0.3 }}
         >
           <SectionWithContainer>
-            <div className="d-flex flex-column align-items-center mb-3">
-              <h1 className="text-center">
-                Connecting local business to big companies
-              </h1>
-              <h4>What are you looking for?</h4>
+            <h4>{proposal.Tender?.Title}</h4>
+            <div>
+              <small className="d-block">ESTIMATED DELIVERY</small>
+              <span>
+                {moment(proposal.Tender?.ClosingAt).format('DD/MM/YYYY')}
+              </span>
+              <Row className="justify-content-between">
+                <Col md="auto">
+                  <Row>
+                    <Col md="auto">
+                      <img
+                        className="img-thumbnail"
+                        src={proposal.Supplier?.Logo}
+                        alt={proposal.Supplier?.Name}
+                        width={80}
+                      />
+                    </Col>
+                    <Col md="auto">
+                      <strong className="d-block">
+                        {proposal.Supplier?.Name}
+                      </strong>
+                      <span className="text-success">{proposal.Offer}</span>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col md="auto">
+                  <Row>
+                    <Col md="auto">
+                      <Button size="sm" variant="outline-success">
+                        <strong>4</strong> Attachments
+                      </Button>
+                    </Col>
+                    <Col md="auto">
+                      <Button size="sm" variant="outline-primary">
+                        Contact the local business
+                      </Button>
+                    </Col>
+                    <Col md="auto">
+                      <Button size="sm" variant="success">
+                        Choose the company
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
             </div>
-            <Row className="justify-content-center">
-              <Col md="auto">
-                <Link href="/subscribe?type=buyer">
-                  <Button as="a">Subscribe as a Buyer</Button>
-                </Link>
-              </Col>
-              <Col md="auto">
-                <Link href="/subscribe?type=supplier">
-                  <Button variant="success">
-                    Subscribe as a Local Business
-                  </Button>
-                </Link>
-              </Col>
-            </Row>
           </SectionWithContainer>
           <SectionWithContainer>
-            <h2 className="mb-3">Tenders</h2>
-            <Row>
-              {tenders.map((tender: ITender) => (
-                <Col key={tender.ID} md={3}>
-                  <Link href={`/tenders/${tender.ID}`} passHref>
-                    <Button
-                      variant="link"
-                      className="p-0 text-dark text-left radius-0"
-                      as="a"
-                    >
-                      <TenderDetailCard tender={tender} />
-                    </Button>
-                  </Link>
-                </Col>
-              ))}
-            </Row>
-          </SectionWithContainer>
-          <SectionWithContainer>
-            <h2 className="mb-3">Local Business</h2>
-            <Row>
-              {suppliers.map((supplier: ISupplier) => (
-                <Col key={supplier.ID} md={3}>
-                  <Link href={`/suppliers/${supplier.ID}`} passHref>
-                    <Button
-                      variant="link"
-                      className="p-0 text-dark text-left radius-0"
-                      as="a"
-                    >
-                      <SupplierDetailCard supplier={supplier} />
-                    </Button>
-                  </Link>
-                </Col>
-              ))}
-            </Row>
+            <h2>Description</h2>
+            <div dangerouslySetInnerHTML={{ __html: proposal.Description }} />
           </SectionWithContainer>
         </motion.div>
       </MainLayout>
@@ -238,4 +255,4 @@ const HomePage: FC<IProps> = ({
   );
 };
 
-export default HomePage;
+export default ProposalDetailPage;

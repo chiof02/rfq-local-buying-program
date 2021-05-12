@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import cx from 'classnames';
+import NaviBar from 'components/Navibar/NaviBar';
 
 export interface MainLayoutProps {
   className?: string;
@@ -9,7 +10,8 @@ export interface MainLayoutProps {
 const MainLayout: FC<MainLayoutProps> = ({ children, className }) => {
   return (
     <div className={cx('main-layout flex-column d-flex', className)}>
-      <div className="main-layout-content flex-grow-1 position-relative">
+      <NaviBar />
+      <div className="main-layout-content flex-grow-1 position-relative mt-navbar">
         {children}
       </div>
     </div>

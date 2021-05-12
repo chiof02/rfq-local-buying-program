@@ -1,13 +1,13 @@
 import { ComponentProps, FC } from 'react';
 import ReactSelect from 'react-select';
 
-type IProps = ComponentProps<typeof ReactSelect> & {
+export type SelectProps = ComponentProps<typeof ReactSelect> & {
   getOptionLabel?(value: any): string;
 };
 
-const Select: FC<IProps> = ({
-  labelAttribute = 'name',
-  valueAttribute = 'id',
+const Select: FC<SelectProps> = ({
+  labelAttribute = 'Name',
+  valueAttribute = 'ID',
   isClearable = true,
   getOptionLabel,
   ...props
