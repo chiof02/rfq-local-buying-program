@@ -290,6 +290,34 @@ HOST: https://polls.apiblueprint.org/
         ]
 
 
+### GET ONE Buyer [GET /buyers/{id}]
+
++ Response 200 (application/json)
+
+        {
+            "ID": 1,
+            "Name": "BHP",
+            "ABN": "26125643045",
+            "Logo": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
+            "Description": "Description",
+            "State_ID": 1,
+            "State": {
+              "ID": 1,
+              "Name": "City",
+              "Acronym": "CIT"
+            },
+            "City_ID": 1,
+            "City": {
+              "ID": 1,
+              "Name": "Cool City",
+              "State_ID": 1
+            },
+            "DeletedAt": "2021-04-25T11:55:34Z",
+            "CreatedAt": "2021-04-25T11:55:34Z",
+            "UpdatedAt": "2021-04-25T11:55:34Z"
+        }
+
+
 ### Create a New Buyer [POST]
 
 + Response 201 (application/json)
@@ -577,7 +605,71 @@ HOST: https://polls.apiblueprint.org/
                 "Offer": 5000.00
             }
             
+### GET ONE Buyer [GET /tenders/{id}]
 
++ Response 200 (application/json)
+
+        {
+            "ID": 4,
+            "BuyerID": 3,
+            "PublishedAt": "2021-04-25T11:55:34Z",
+            "ClosingAt": "2021-04-25T11:55:34Z",
+            "Description": "Create metal sheets",
+            "State_ID": 3,
+            "City_ID": 4,
+            "Offer": 6000.0,
+            "DeletedAt": "2021-04-25T11:55:34Z",
+            "CreatedAt": "2021-04-25T11:55:34Z",
+            "UpdatedAt": "2021-04-25T11:55:34Z",
+            "Buyer": {
+              "ABN": "21321",
+              "ID": 1,
+              "Name": "Name",
+              "Logo": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
+              "Description": "Description",
+              "State_ID": 1,
+              "State": {
+                "ID": 1,
+                "Name": "City",
+                "Acronym": "CIT"
+              },
+              "City_ID": 1,
+              "City": {
+                "ID": 1,
+                "Name": "Cool City",
+                "State_ID": 1
+              },
+              "DeletedAt": "2022-03-01",
+              "CreatedAt": "2022-03-01",
+              "UpdatedAt": "2022-03-01"
+            },
+            "Title": "Title",
+            "HeadingImage": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
+            "State": {
+              "ID": 1,
+              "Name": "City",
+              "Acronym": "CIT"
+            },
+            "City": {
+              "ID": 1,
+              "Name": "Cool City",
+              "State_ID": 1
+            },
+            "SupplyCategories": [
+              {
+                "ID": 1,
+                "Name": "Name",
+                "Description": "Name"
+              },
+              {
+                "ID": 1,
+                "Name": "Name",
+                "Description": "Other Name"
+              }
+            ]
+          }
+        
+        
 ## Profile [/profile]
 
 ### Current Profiles [GET]
@@ -919,6 +1011,115 @@ HOST: https://polls.apiblueprint.org/
                   }
                 ]
 
+### GET ONE Proposal [GET /proposals/{id}]
+
++ Response 200 (application/json)
+        
+        {
+          "ApprovedAt": "2020-03-01",
+          "CreatedAt": "2020-03-01",
+          "DeletedAt": "2020-03-01",
+          "Description": "2020-03-01",
+          "Offer": 1231319,
+          "Supplier": {
+            "ABN": "21321",
+            "ID": 1,
+            "Name": "Name",
+            "Logo": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
+            "Description": "Description",
+            "State_ID": 1,
+            "State": {
+              "ID": 1,
+              "Name": "City",
+              "Acronym": "CIT"
+            },
+            "City_ID": 1,
+            "City": {
+              "ID": 1,
+              "Name": "Cool City",
+              "State_ID": 1
+            },
+            "DeletedAt": "2022-03-01",
+            "CreatedAt": "2022-03-01",
+            "UpdatedAt": "2022-03-01",
+            "SupplyCategories": [
+              {
+                "ID": 1,
+                "Name": "Name",
+                "Description": "Name"
+              },
+              {
+                "ID": 1,
+                "Name": "Name",
+                "Description": "Other Name"
+              }
+            ]
+          },
+          "Supplier_ID": 1,
+          "Tender": {
+            "ID": 1,
+            "Buyer_ID": 1,
+            "Buyer": {
+              "ABN": "21321",
+              "ID": 1,
+              "Name": "Name",
+              "Logo": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
+              "Description": "Description",
+              "State_ID": 1,
+              "State": {
+                "ID": 1,
+                "Name": "City",
+                "Acronym": "CIT"
+              },
+              "City_ID": 1,
+              "City": {
+                "ID": 1,
+                "Name": "Cool City",
+                "State_ID": 1
+              },
+              "DeletedAt": "2022-03-01",
+              "CreatedAt": "2022-03-01",
+              "UpdatedAt": "2022-03-01"
+            },
+            "PublishedAt": "2022-03-01",
+            "ClosingAt": "2021-04-29",
+            "Title": "Title",
+            "HeadingImage": "https://images.unsplash.com/photo-1584715787746-75b93b83bf14?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
+            "Description": "Description",
+            "State_ID": 1,
+            "State": {
+              "ID": 1,
+              "Name": "City",
+              "Acronym": "CIT"
+            },
+            "City_ID": 1,
+            "City": {
+              "ID": 1,
+              "Name": "Cool City",
+              "State_ID": 1
+            },
+            "Offer": 2323.23,
+            "DeletedAt": "2022-03-01",
+            "CreatedAt": "2022-03-01",
+            "UpdatedAt": "2022-03-01",
+            "SupplyCategories": [
+              {
+                "ID": 1,
+                "Name": "Name",
+                "Description": "Name"
+              },
+              {
+                "ID": 1,
+                "Name": "Name",
+                "Description": "Other Name"
+              }
+            ]
+          },
+          "Tender_ID": 1,
+          "UpdatedAt": "2020-03-01",
+          "ID": 1
+        }
+        
                 
 ### Add proposal [POST]
 
