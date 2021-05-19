@@ -9,7 +9,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { motion } from 'framer-motion';
 // eslint-disable-next-line import/no-unresolved
 import { Except } from 'type-fest';
-import request from 'utils/request';
+import realRequest from 'utils/realRequest';
 
 import FormControlFile from 'components/FormControlFile/FormControlFile';
 import FormGroupWithLabelAndControl from 'components/FormGroupWithLabelAndControl/FormGroupWithLabelAndControl';
@@ -76,6 +76,17 @@ const SupplierSubscribeForm: FC<SupplierSubscribeFormProps> = ({
   const { register, handleSubmit, control } = useForm();
   return (
     <Form onSubmit={handleSubmit(onSubmit)} {...props}>
+      <FormGroupWithLabelAndControl
+        label="Email"
+        controlProps={register('Email', { required: true })}
+      />
+      <FormGroupWithLabelAndControl
+        label="Password"
+        controlProps={{
+          ...register('Password', { required: true }),
+          type: 'password',
+        }}
+      />
       <FormGroupWithLabelAndControl
         label="Name"
         controlProps={register('Name', { required: true })}
@@ -167,6 +178,17 @@ const BuyerSubscribeForm: FC<BuyerSubscribeFormProps> = ({
   return (
     <Form onSubmit={handleSubmit(onSubmit)} {...props}>
       <FormGroupWithLabelAndControl
+        label="Email"
+        controlProps={register('Email', { required: true })}
+      />
+      <FormGroupWithLabelAndControl
+        label="Password"
+        controlProps={{
+          ...register('Password', { required: true }),
+          type: 'password',
+        }}
+      />
+      <FormGroupWithLabelAndControl
         label="Name"
         controlProps={register('Name', { required: true })}
       />
@@ -204,7 +226,10 @@ const SubscribePage: FC<IProps> = ({ statusCode = null, host = '' }) => {
   const onSubmit = async (value: any) => {
     setLoading(true);
     try {
-      const response = await request.post('/users', value);
+      const response = await realRequest.post('/api/auth/signup', {
+        ...value,
+        Type: type,
+      });
       console.info(response);
     } catch (error) {
       console.error(error);

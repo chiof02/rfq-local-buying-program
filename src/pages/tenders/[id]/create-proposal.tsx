@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
 import ErrorPage from 'next/error';
 import Head from 'next/head';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
@@ -64,12 +64,23 @@ const CreateProposalPage: FC<IProps> = ({
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [loading, setLoading] = useState(false);
   if (statusCode) {
     return <ErrorPage statusCode={statusCode} />;
   }
 
-  function onSubmit(values: any) {
-    console.info(values);
+  async function onSubmit(values: any) {
+    setLoading(true);
+    try {
+      const response = await request.post('/proposal', {
+        Tender_ID: tender.ID,
+        ...values,
+      });
+      console.info(response);
+    } catch (error) {
+      console.error(error);
+    }
+    setLoading(false);
   }
 
   return (
@@ -136,7 +147,9 @@ const CreateProposalPage: FC<IProps> = ({
                       )}
                     </Form.Group>
                     <Form.Group>
-                      <Button type="submit">Register</Button>
+                      <Button disabled={loading} type="submit">
+                        Register
+                      </Button>
                     </Form.Group>
                   </Form>
                 </Card.Body>

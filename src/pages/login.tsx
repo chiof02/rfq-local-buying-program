@@ -6,7 +6,7 @@ import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
 import { motion } from 'framer-motion';
-import request from 'utils/request';
+import realRequest from 'utils/realRequest';
 
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
 import { ISupplier } from 'models/ISupplier';
@@ -31,8 +31,19 @@ const LoginPage: FC<IProps> = ({ statusCode = null, host = '' }) => {
 
   const onSubmit = async (value: any) => {
     setLoading(true);
+
     try {
-      const response = await request.post('/login', value);
+      const response = await realRequest.post('/api/auth/login', value);
+      // fetch('/api/auth/login', {
+      //   headers: {
+      //     'Access-Control-Allow-Origin': '*',
+      //     'Content-Type': 'application/json',
+      //   },
+      //   method: 'POST',
+      //   body: JSON.stringify(value),
+      // })
+      //   .then(response => response.json())
+      //   .then(data => console.log(data));
       console.info(response);
     } catch (error) {
       console.error(error);

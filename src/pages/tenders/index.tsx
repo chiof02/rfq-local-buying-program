@@ -3,14 +3,13 @@ import ErrorPage from 'next/error';
 import Head from 'next/head';
 import Link from 'next/link';
 import { FC, useMemo, useState } from 'react';
-import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
+import { Button, Form, Col, Row } from 'react-bootstrap';
 
 import { motion } from 'framer-motion';
-import moment from 'moment';
-import { $enum } from 'ts-enum-util';
 import renderCommonMetaTags from 'utils/renderCommonMetaTags';
 import request from 'utils/request';
 
+import Navbar from 'components/Navibar/NaviBar';
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
 import TenderDetailCard from 'components/TenderDetailCard/TenderDetailCard';
 import { ITender } from 'models/ITender';
@@ -21,11 +20,6 @@ interface IProps {
   statusCode?: number;
   host: string;
   tenders: ITender[];
-}
-
-enum TenderState {
-  closed = 'Closed',
-  active = 'Active',
 }
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -48,28 +42,13 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 };
 
-const MyTendersPage: FC<IProps> = ({
-  tenders,
-  statusCode = null,
-  host = '',
-}) => {
-  const [tenderFilter, setTenderFilter] = useState<TenderState>();
+const TendersPage: FC<IProps> = ({ tenders, statusCode = null, host = '' }) => {
+  const [search, setSearch] = useState<string>('');
   const filteredTender = useMemo(() => {
-    switch (tenderFilter) {
-      case TenderState.closed:
-        return tenders.filter(tender => {
-          return moment().startOf('day').isAfter(moment(tender.ClosingAt));
-        });
-      case TenderState.active:
-        return tenders.filter(tender => {
-          return moment()
-            .startOf('day')
-            .isSameOrBefore(moment(tender.ClosingAt));
-        });
-      default:
-        return tenders;
-    }
-  }, [tenderFilter, tenders]);
+    return tenders.filter(tender => {
+      return tender.Title.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
+  }, [search, tenders]);
 
   if (statusCode) {
     return <ErrorPage statusCode={statusCode} />;
@@ -96,36 +75,42 @@ const MyTendersPage: FC<IProps> = ({
           exit={{ opacity: 0, y: 40 }}
           transition={{ ease: 'easeInOut', duration: 0.3 }}
         >
+          <Navbar />
           <SectionWithContainer>
             <Row className="justify-content-between">
               <Col md="auto">
-                <h1 className="mb-3">My Tenders</h1>
-              </Col>
-              <Col md="auto">
-                <ButtonGroup size="sm">
-                  <Button
-                    onClick={() => setTenderFilter(undefined)}
-                    variant={
-                      tenderFilter === undefined ? undefined : 'outline-primary'
-                    }
-                  >
-                    All
-                  </Button>
-                  {$enum(TenderState).map(value => (
-                    <Button
-                      onClick={() => setTenderFilter(value)}
-                      key={value}
-                      variant={
-                        value === tenderFilter ? 'primary' : 'outline-primary'
-                      }
-                    >
-                      {value}
-                    </Button>
-                  ))}
-                </ButtonGroup>
+                <h1 className="mb-3">Tenders</h1>
               </Col>
             </Row>
-            <Row>
+            <Row className="justify-content-md-center mt-4">
+              <h4 className="text-center">Looking for current tenders?</h4>
+            </Row>
+            <Row className="justify-content-md-center mt-3">
+              {/* I want to put searchbar in the center of this image */}
+              {/* <SectionWithContainer className="position-relative">
+                                <img
+                                    src="images/tenders_bg.jpg"
+                                    alt="Office Background"
+                                    width="100%"
+                                    height="500px"
+                                />
+                            </SectionWithContainer> */}
+              <Col lg="6">
+                <Form.Control
+                  value={search}
+                  onChange={({ target: { value } }) => {
+                    setSearch(value);
+                  }}
+                />
+              </Col>
+              <Col md="auto">
+                <Button>Search</Button>
+              </Col>
+            </Row>
+            <Row className="justify-content-md-center mt-5">
+              <h3 className="text-center">Open tenders</h3>
+            </Row>
+            <Row className="mt-2">
               {filteredTender.map((tender: ITender) => (
                 <Col key={tender.ID} md={3} className="mb-3">
                   <Link href={`/tenders/${tender.ID}`} passHref>
@@ -147,4 +132,4 @@ const MyTendersPage: FC<IProps> = ({
   );
 };
 
-export default MyTendersPage;
+export default TendersPage;

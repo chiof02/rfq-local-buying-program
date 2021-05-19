@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import cx from 'classnames';
+
 import NaviBar from 'components/Navibar/NaviBar';
 
 export interface MainLayoutProps {
